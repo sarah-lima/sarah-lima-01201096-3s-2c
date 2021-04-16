@@ -8,6 +8,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/lutadores")
@@ -34,7 +38,7 @@ public class LutadorController {
 
 
     @PostMapping("/{id}/concentrar")
-    public ResponseEntity postConcentrar(@RequestParam Integer id){
+    public ResponseEntity postConcentrar(@PathVariable int id){
         if(repository.existsById(id)){
             Lutador lut = repository.getOne(id);
             if(lut.getConcentracoesRealizadas()==3){
@@ -45,4 +49,29 @@ public class LutadorController {
         }
         return ResponseEntity.notFound().build();
     }
+    @PostMapping("/golpe")
+    public ResponseEntity postGolpe(@RequestBody int idLutadorBate, @RequestBody int idLutadorApanha){
+        if (idLutadorApanha > 0 && idLutadorBate > 0) {
+            if(repository.existsById(idLutadorApanha) && repository.existsById(idLutadorBate)){
+            Optional<Lutador> lut1 = repository.findById(idLutadorBate);
+            Optional<Lutador> lut2 = repository.findById(idLutadorApanha);
+            Double golpe = lut1.get().getForcaGolpe();
+            lut2.get().apanha(golpe);
+            List vetor = new ArrayList();
+            vetor.add(lut1);
+            vetor.add(lut2);
+            return ResponseEntity.status(201).body(vetor);
+        }
+            return ResponseEntity.notFound().build();
+        }else{
+            return ResponseEntity.status(400).build();
+        }
+
+    }
+    @GetMapping("/contagem-vivos")
+    public ResponseEntity getMortos(){
+        return ResponseEntity.ok(repository.findByVivoFalse().size());
+    }
+
+
 }

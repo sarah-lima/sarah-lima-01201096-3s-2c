@@ -10,4 +10,5 @@ import java.util.List;
 public interface LutadorRepository extends JpaRepository<Lutador,Integer> {
     public List<Lutador> findByOrderByForcaGolpeDesc();
     public List<Lutador> findByVivoTrue();
+    public List<Lutador> findByVivoFalse();
 }

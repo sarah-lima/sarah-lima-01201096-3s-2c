@@ -53,7 +53,13 @@ public class Lutador {
     public void setVida() {
         vida = vida*1.15;
     }
-
+    public void apanha(Double golpe){
+        if(golpe>vida){
+            vida=0.0;
+        }else{
+        vida = vida-golpe;
+    }
+    }
     public Integer getConcentracoesRealizadas() {
         return concentracoesRealizadas;
     }
