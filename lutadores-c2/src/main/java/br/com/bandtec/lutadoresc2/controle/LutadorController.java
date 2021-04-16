@@ -55,13 +55,15 @@ public class LutadorController {
             if(repository.existsById(idLutadorApanha) && repository.existsById(idLutadorBate)){
             Optional<Lutador> lut1 = repository.findById(idLutadorBate);
             Optional<Lutador> lut2 = repository.findById(idLutadorApanha);
+            if(lut1.get().getVivo() && lut2.get().getVivo()){
             Double golpe = lut1.get().getForcaGolpe();
             lut2.get().apanha(golpe);
             List vetor = new ArrayList();
             vetor.add(lut1);
             vetor.add(lut2);
             return ResponseEntity.status(201).body(vetor);
-        }
+        }return ResponseEntity.status(400).body("Ambos os lutadores devem estar vivos!");
+            }
             return ResponseEntity.notFound().build();
         }else{
             return ResponseEntity.status(400).build();
