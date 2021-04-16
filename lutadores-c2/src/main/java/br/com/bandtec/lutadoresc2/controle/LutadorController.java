@@ -61,8 +61,9 @@ public class LutadorController {
             List vetor = new ArrayList();
             vetor.add(lut1);
             vetor.add(lut2);
-            return ResponseEntity.status(201).body(vetor);
-        }return ResponseEntity.status(400).body("Ambos os lutadores devem estar vivos!");
+                return ResponseEntity.status(201).body(vetor);
+            }
+                return ResponseEntity.status(400).body("Ambos os lutadores devem estar vivos!");
             }
             return ResponseEntity.notFound().build();
         }else{
